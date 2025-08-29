@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Prompt Engineering</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Bar -->
+    <header class="top-bar">
+                        <div class="breadcrumb">
+                    <a href="#" class="breadcrumb-link">← Dashboard</a>
+                    <span class="breadcrumb-separator">|</span>
+                    <span class="breadcrumb-current editable-title" contenteditable="true" title="Click to edit project name">New Project</span>
+                </div>
+        <div class="top-right">
+            <!-- Removed star icon button -->
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <div class="sidebar">
+            <!-- Create AI Section -->
+            <div class="sidebar-section">
+                <h3 class="section-title">Create AI</h3>
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item active">
+                        <i class="fas fa-th"></i>
+                        <span>Basic</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Knowledge</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Behaviors</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-share-alt"></i>
+                        <span>Share</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- Help Section -->
+            <div class="sidebar-section">
+                <h3 class="section-title">Help</h3>
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-comment"></i>
+                        <span>Feedback</span>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Report</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- User Avatar -->
+            <div class="user-avatar">
+                <span>AS</span>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="content-area">
+            <!-- Settings Panel (Basic Settings Form) -->
+            <div class="forms-pane">
+                <!-- Header -->
+                <div class="form-header">
+                    <h1 class="form-title">
+                        <i class="fas fa-th form-icon"></i>
+                        Basic settings
+                    </h1>
+                    <p class="form-description">
+                        Give your AI project a name, choose an AI model, and write custom instructions to shape how the AI responds and behaves.
+                    </p>
+                </div>
+
+                <!-- Project Subtitle Section -->
+                <div class="form-section">
+                    <label class="form-label">Project subtitle</label>
+                    <p class="field-description">Add a brief description to summarize your AI project.</p>
+                    <div class="input-container">
+                        <input type="text" class="form-input" placeholder="Enter project subtitle" maxlength="240">
+                        <span class="char-counter">0 / 240</span>
+                    </div>
+                </div>
+
+
+
+                <!-- Chat Memory Toggle Section -->
+                <div class="form-section">
+                    <div class="toggle-section">
+                        <div class="toggle-content">
+                            <label class="form-label toggle-label">Enable current chat memory</label>
+                            <p class="field-description">Allow your AI project to remember the current conversation for more relevant responses.</p>
+                        </div>
+                        <div class="toggle-container">
+                            <input type="checkbox" id="chatMemoryToggle" class="toggle-input" checked title="Enable current chat memory">
+                            <label for="chatMemoryToggle" class="toggle-switch" aria-label="Enable current chat memory">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Knowledge Base Access Toggle Section -->
+                <div class="form-section">
+                    <div class="toggle-section">
+                        <div class="toggle-content">
+                            <label class="form-label toggle-label">Allow your AI project to access your Knowledge base.</label>
+                        </div>
+                        <div class="toggle-container">
+                            <input type="checkbox" id="knowledgeBaseToggle" class="toggle-input" title="Allow AI project to access Knowledge base">
+                            <label for="knowledgeBaseToggle" class="toggle-switch" aria-label="Allow AI project to access Knowledge base">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resizable Handle -->
+            <div class="resize-handle" id="resizeHandle" title="Drag to resize panel"></div>
+
+            <!-- Right Pane - Project Preview -->
+            <div class="preview-pane">
+                <div class="preview-header">
+                    <button class="edit-view-btn">
+                        <i class="fas fa-pencil"></i>
+                        Edit view
+                    </button>
+                    <div class="preview-header-actions">
+                        <button class="action-btn compare-btn" id="compareBtn">
+                            <i class="fas fa-balance-scale"></i>
+                            Compare
+                        </button>
+                        <button class="action-btn save-btn" id="saveBtn">
+                            <i class="fas fa-save"></i>
+                            Save
+                        </button>
+                        <button class="action-btn clear-btn" id="clearBtn">
+                            <i class="fas fa-trash"></i>
+                            Clear
+                        </button>
+                        <button class="fullscreen-btn" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Chatbot UI -->
+                <div class="chatbot-container">
+                    <!-- System Instructions Panel -->
+                    <div class="system-instructions-panel">
+                        <div class="system-instructions-header" style="position: relative; display: flex; align-items: center; justify-content: space-between;">
+                            <span class="system-title">System Instructions</span>
+                            <div class="system-header-controls">
+                                <div class="plan-mode-toggle-container">
+                                    <input type="checkbox" id="planModeToggle" class="plan-mode-toggle-input">
+                                    <label for="planModeToggle" class="plan-mode-toggle" title="Enable Plan Mode">
+                                        <i class="fas fa-magic"></i>
+                                        <span>Plan Mode</span>
+                                    </label>
+                                </div>
+                                <button class="history-btn" title="Show history">
+                                    <i class="material-icons">history</i>
+                                </button>
+                            </div>
+                            <div class="history-dropdown" id="historyDropdown" style="display:none;">
+                                <div class="history-header">
+                                    <h3>History</h3>
+                                    <button class="clear-history-btn" title="Clear history">
+                                        <i class="material-icons">clear_all</i>
+                                    </button>
+                                </div>
+                                <!-- History items will be injected by JS -->
+                            </div>
+                        </div>
+                        <p class="field-description">
+                            Custom instructions (also called a system prompt) let you define your model's role, goals, and response style. Get help with the 
+                            <a href="#" class="help-link">Custom Instructions AI Guide</a>.
+                        </p>
+                        <!-- Role Shortcuts -->
+                        <div class="role-shortcuts-container">
+                            <label class="role-shortcuts-label">Quick Role:</label>
+                            <div class="role-buttons-container">
+                                <button class="role-btn" data-role="designer" title="UX/UI Designer with expertise in user-centered design">
+                                    <i class="fas fa-palette"></i>
+                                    Designer
+                                </button>
+                                <button class="role-btn" data-role="teacher" title="Patient educator who breaks down complex topics">
+                                    <i class="fas fa-chalkboard-teacher"></i>
+                                    Teacher
+                                </button>
+                                <button class="role-btn" data-role="analyst" title="Detail-oriented analyst with critical thinking skills">
+                                    <i class="fas fa-chart-line"></i>
+                                    Analyst
+                                </button>
+                                <button class="role-btn" data-role="storyteller" title="Creative storyteller with narrative expertise">
+                                    <i class="fas fa-book-open"></i>
+                                    Storyteller
+                                </button>
+                                <button class="role-btn" data-role="coach" title="Supportive coach who helps achieve goals">
+                                    <i class="fas fa-bullhorn"></i>
+                                    Coach
+                                </button>
+                                <button class="role-btn" data-role="consultant" title="Strategic business consultant with broad expertise">
+                                    <i class="fas fa-briefcase"></i>
+                                    Consultant
+                                </button>
+                                <button class="role-btn" data-role="researcher" title="Thorough researcher who gathers and analyzes information">
+                                    <i class="fas fa-search"></i>
+                                    Researcher
+                                </button>
+                                <button class="role-btn" data-role="writer" title="Skilled writer with expertise in various communication forms">
+                                    <i class="fas fa-pen-fancy"></i>
+                                    Writer
+                                </button>
+                                <button class="role-btn custom-role-btn" data-role="custom" title="Define your own custom role">
+                                    <i class="fas fa-plus"></i>
+                                    Custom
+                                </button>
+                            </div>
+                            
+                            <!-- Custom Role Input (initially hidden) -->
+                            <div class="custom-role-container" id="customRoleContainer" style="display: none;">
+                                <label class="custom-role-label">Describe your custom role:</label>
+                                <textarea 
+                                    class="custom-role-input" 
+                                    id="customRoleInput"
+                                    placeholder="Example: You are a sustainability expert who helps businesses reduce their environmental impact. You provide practical, cost-effective solutions..."
+                                    rows="3"
+                                ></textarea>
+                                <div class="custom-role-actions">
+                                    <button class="custom-role-apply-btn" id="customRoleApply">Apply Custom Role</button>
+                                    <button class="custom-role-cancel-btn" id="customRoleCancel">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="system-instructions-input-container">
+                            <textarea 
+                                class="system-instructions-input" 
+                                id="systemInstructionsInput"
+                                placeholder="You are a helpful, concise tutor who explains complex ideas in simple terms using everyday examples."
+                                rows="2"
+                            ></textarea>
+                            <button class="system-instructions-save-btn" type="button" style="display:none;">Save</button>
+                            <button class="preview-ai-btn" id="previewAiBtn" title="Preview AI interpretation">
+                                <i class="fas fa-eye"></i>
+                                Preview AI interpretation
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will be dynamically added here -->
+                    </div>
+                    <!-- Pills for prompt samples, placed just above chat input -->
+                    <div class="prompt-pills-section">
+                        <button class="prompt-pill" data-category="document">Document classification</button>
+                        <button class="prompt-pill" data-category="image">Image editing</button>
+                        <button class="prompt-pill" data-category="question">Image Q&A</button>
+                        <button class="prompt-library-btn" id="browseGallery">
+                            <i class="fas fa-external-link-alt"></i> Browse prompt library
+                        </button>
+                    </div>
+                    <!-- Chat Input -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea 
+                                class="chat-input" 
+                                placeholder="Write a prompt" 
+                                rows="1"
+                                id="chatInput"
+                            ></textarea>
+                            <div class="chat-input-actions">
+                                <button class="help-write-btn" id="helpWriteBtn" title="Get prompt suggestions">
+                                    <i class="fas fa-magic"></i>
+                                    Help me write
+                                </button>
+                                <button class="chat-input-btn" title="Attach file">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="chat-send-btn" id="chatSendBtn" title="Send message">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="input-footer">
+                            <div class="token-counter">
+                                <span id="tokenCount">0 tokens</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Plan Mode Sidebar -->
+    <div class="plan-mode-sidebar" id="planModeSidebar">
+        <div class="plan-sidebar-header">
+            <h3>Plan Your Prompt</h3>
+            <button class="close-plan-sidebar" id="closePlanSidebar" title="Close Plan Mode">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="plan-sidebar-content">
+            <!-- Step 0: Model Selection -->
+            <div class="plan-step" data-step="0">
+                <div class="plan-step-header">
+                    <span class="plan-step-number">0</span>
+                    <h4>Model</h4>
+                </div>
+                <p class="plan-step-description">Which AI model should handle your request?</p>
+                <div class="plan-step-content">
+                    <select class="plan-model-select" id="planModelSelect" title="Choose a model">
+                        <option value="gpt-4o-mini">GPT-4o Mini - Fast & efficient for most tasks</option>
+                        <option value="gpt-4">GPT-4 - Most capable, best for complex reasoning</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo - Balanced speed and capability</option>
+                        <option value="claude-3">Claude 3 - Excellent for analysis and writing</option>
+                    </select>
+                    <div class="model-info-card" id="modelInfoCard">
+                        <div class="model-info-content">
+                            <h5 class="model-info-title">GPT-4o Mini</h5>
+                            <p class="model-info-description">Fast and efficient for most everyday tasks. Great balance of speed and quality.</p>
+                            <div class="model-info-stats">
+                                <span class="model-stat">⚡ Speed: Fast</span>
+                                <span class="model-stat">💰 Cost: Low</span>
+                                <span class="model-stat">🧠 Capability: Good</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 1: Goal -->
+            <div class="plan-step" data-step="1">
+                <div class="plan-step-header">
+                    <span class="plan-step-number">1</span>
+                    <h4>Goal</h4>
+                </div>
+                <p class="plan-step-description">What are you trying to achieve?</p>
+                <div class="plan-step-content">
+                    <select class="plan-goal-select" id="planGoalSelect" title="Select your goal">
+                        <option value="">Choose a goal...</option>
+                        <option value="brainstorm">Brainstorm ideas</option>
+                        <option value="analyze">Analyze information</option>
+                        <option value="write">Write content</option>
+                        <option value="explain">Explain concepts</option>
+                        <option value="solve">Solve problems</option>
+                        <option value="create">Create something</option>
+                        <option value="review">Review and improve</option>
+                        <option value="custom">Custom goal</option>
+                    </select>
+                    <textarea class="plan-goal-custom" id="planGoalCustom" placeholder="Describe your specific goal..." style="display:none;"></textarea>
+                </div>
+            </div>
+
+            <!-- Step 2: Context -->
+            <div class="plan-step" data-step="2">
+                <div class="plan-step-header">
+                    <span class="plan-step-number">2</span>
+                    <h4>Context</h4>
+                </div>
+                <p class="plan-step-description">Any background info or details?</p>
+                <div class="plan-step-content">
+                    <textarea class="plan-context-input" id="planContextInput" placeholder="Add relevant context, constraints, or background information..."></textarea>
+                </div>
+            </div>
+
+            <!-- Step 3: Tone & Style -->
+            <div class="plan-step" data-step="3">
+                <div class="plan-step-header">
+                    <span class="plan-step-number">3</span>
+                    <h4>Tone & Style</h4>
+                </div>
+                <p class="plan-step-description">How should the AI respond?</p>
+                <div class="plan-step-content">
+                    <div class="plan-tone-buttons">
+                        <button class="plan-tone-btn" data-tone="professional">Professional</button>
+                        <button class="plan-tone-btn" data-tone="casual">Casual</button>
+                        <button class="plan-tone-btn" data-tone="friendly">Friendly</button>
+                        <button class="plan-tone-btn" data-tone="detailed">Detailed</button>
+                        <button class="plan-tone-btn" data-tone="concise">Concise</button>
+                        <button class="plan-tone-btn" data-tone="creative">Creative</button>
+                        <button class="plan-tone-btn" data-tone="step-by-step">Step-by-step</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Output Format -->
+            <div class="plan-step" data-step="4">
+                <div class="plan-step-header">
+                    <span class="plan-step-number">4</span>
+                    <h4>Output Format</h4>
+                </div>
+                <p class="plan-step-description">How should the response be structured?</p>
+                <div class="plan-step-content">
+                    <div class="plan-format-buttons">
+                        <button class="plan-format-btn" data-format="bullets">Bullet Points</button>
+                        <button class="plan-format-btn" data-format="numbered">Numbered List</button>
+                        <button class="plan-format-btn" data-format="essay">Essay</button>
+                        <button class="plan-format-btn" data-format="table">Table</button>
+                        <button class="plan-format-btn" data-format="code">Code</button>
+                        <button class="plan-format-btn" data-format="outline">Outline</button>
+                        <button class="plan-format-btn" data-format="qa">Q&A Format</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="plan-sidebar-footer">
+            <button class="plan-apply-btn" id="planApplyBtn">Apply to System Instructions</button>
+            <button class="plan-reset-btn" id="planResetBtn">Reset</button>
+        </div>
+    </div>
+
+    <!-- Help me write Modal -->
+    <div class="help-write-modal" id="helpWriteModal" style="display: none;">
+        <div class="help-write-backdrop"></div>
+        <div class="help-write-container">
+            <div class="help-write-header">
+                <h2 class="help-write-title">Let's shape your prompt</h2>
+                <button class="help-write-close" id="helpWriteClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="help-write-body">
+                <!-- Intent Input Section -->
+                <div class="help-write-section">
+                    <div class="help-write-input-container">
+                        <textarea 
+                            class="help-write-input" 
+                            id="helpWriteInput"
+                            placeholder="What do you want to achieve?
+
+Examples:
+• Explain quantum computing like I'm 10
+• Help me create a study plan for exams
+• Write a professional email to my boss"
+                            rows="4"
+                        ></textarea>
+                    </div>
+                </div>
+                
+                <!-- Optional Refinements -->
+                <div class="help-write-section">
+                    <p class="help-write-subtitle">Optional refinements</p>
+                    
+                    <!-- Role chips -->
+                    <div class="help-write-chip-group">
+                        <label class="help-write-chip-label">Role</label>
+                        <div class="help-write-chips">
+                            <button class="help-write-chip" data-type="role" data-value="teacher">Teacher</button>
+                            <button class="help-write-chip" data-type="role" data-value="analyst">Analyst</button>
+                            <button class="help-write-chip" data-type="role" data-value="designer">Designer</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tone chips -->
+                    <div class="help-write-chip-group">
+                        <label class="help-write-chip-label">Tone</label>
+                        <div class="help-write-chips">
+                            <button class="help-write-chip" data-type="tone" data-value="casual">Casual</button>
+                            <button class="help-write-chip" data-type="tone" data-value="professional">Professional</button>
+                            <button class="help-write-chip" data-type="tone" data-value="friendly">Friendly</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Format chips -->
+                    <div class="help-write-chip-group">
+                        <label class="help-write-chip-label">Format</label>
+                        <div class="help-write-chips">
+                            <button class="help-write-chip" data-type="format" data-value="bullets">Bullets</button>
+                            <button class="help-write-chip" data-type="format" data-value="essay">Essay</button>
+                            <button class="help-write-chip" data-type="format" data-value="code">Code</button>
+                            <button class="help-write-chip" data-type="format" data-value="table">Table</button>
+                        </div>
+                    </div>
+                    
+                    <p class="help-write-guide-text">We'll make this prompt clear and effective for the AI.</p>
+                </div>
+                
+                <!-- Generate Button -->
+                <div class="help-write-section">
+                    <button class="help-write-generate-btn" id="helpWriteGenerate">
+                        Generate Optimized Prompt
+                    </button>
+                </div>
+                
+                <!-- Optimized Prompt Preview (Initially Hidden) -->
+                <div class="help-write-preview" id="helpWritePreview" style="display: none;">
+                    <div class="help-write-preview-header">
+                        <p class="help-write-preview-label">Optimized for clarity and results</p>
+                    </div>
+                    <div class="help-write-preview-card">
+                        <div class="help-write-preview-text" id="helpWritePreviewText">
+                            <!-- Generated prompt will appear here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Action buttons -->
+                    <div class="help-write-actions">
+                        <button class="help-write-insert-btn" id="helpWriteInsert">
+                            <i class="fas fa-check"></i>
+                            Use this prompt
+                        </button>
+                        <button class="help-write-regenerate-btn" id="helpWriteRegenerate">
+                            <i class="fas fa-redo"></i>
+                            Try another version
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
